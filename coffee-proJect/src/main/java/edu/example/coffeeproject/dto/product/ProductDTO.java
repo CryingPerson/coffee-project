@@ -1,4 +1,4 @@
-package edu.example.coffeeproject.dto;
+package edu.example.coffeeproject.dto.product;
 
 import edu.example.coffeeproject.entity.Category;
 import edu.example.coffeeproject.entity.Product;

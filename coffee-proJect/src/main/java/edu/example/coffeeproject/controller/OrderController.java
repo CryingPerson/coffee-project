@@ -1,7 +1,6 @@
 package edu.example.coffeeproject.controller;
 
-import edu.example.coffeeproject.dto.OrderDTO;
-import edu.example.coffeeproject.entity.Product;
+import edu.example.coffeeproject.dto.order.OrderDTO;
 import edu.example.coffeeproject.service.OrderService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +29,14 @@ public class OrderController {
         return ResponseEntity.ok(orderService.read(id));
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<List<OrderDTO>> readByEmail(@PathVariable String email) {
+        return ResponseEntity.ok(orderService.readEmail(email));
+    }
+
     @PutMapping("{id}")
-    public ResponseEntity<Map<String, String>> modify(@PathVariable long id, @RequestBody OrderDTO orderDTO) {
-        orderService.update(id,orderDTO);
-        return ResponseEntity.ok(Map.of("message", "Order modified"));
+    public ResponseEntity<OrderDTO> modify(@PathVariable long id, @RequestBody OrderDTO orderDTO) {
+        return ResponseEntity.ok(orderService.update(id,orderDTO));
     }
 
     @DeleteMapping("{id}")

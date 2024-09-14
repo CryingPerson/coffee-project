@@ -1,10 +1,8 @@
 package edu.example.coffeeproject.service;
 
-import edu.example.coffeeproject.dto.OrderDTO;
-import edu.example.coffeeproject.dto.OrderItemDTO;
+import edu.example.coffeeproject.dto.order.OrderDTO;
 import edu.example.coffeeproject.entity.Order;
 import edu.example.coffeeproject.entity.OrderStatus;
-import edu.example.coffeeproject.entity.Product;
 import edu.example.coffeeproject.exception.OrderException;
 import edu.example.coffeeproject.repository.OrderRepository;
 import edu.example.coffeeproject.repository.ProductRepository;
@@ -13,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,11 +46,25 @@ public class OrderService {
         return new OrderDTO(order);
     }
 
+    public List<OrderDTO> readEmail(String email){
+        List<Order> orderList = orderRepository.findByEmail(email);
+        List<OrderDTO> orderDTOList = new ArrayList<>();
+
+        for (Order order : orderList) {
+            OrderDTO orderItemDTO = new OrderDTO(order);
+
+            orderDTOList.add(orderItemDTO);
+        }
+
+        return orderDTOList;
+
+    }
+
     public OrderDTO update(Long id, OrderDTO orderDTO) {
         Order order = orderRepository.findById(id).orElseThrow(OrderException.NOT_FOUND_ORDER::get);
         try {
             order.changeAddress(orderDTO.getAddress());
-            order.changePostCode(order.getPostCode());
+            order.changePostCode(order.getPostcode());
             order.changeOrderStatus(orderDTO.getOrderStatus());
 
             orderRepository.save(order);

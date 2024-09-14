@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 @Getter
 @Builder
+@Setter
 @Table(name = "orders")
 @NoArgsConstructor
 @ToString
@@ -24,14 +26,13 @@ public class Order {
     private Long orderId;
 
     @NotNull
-    @Column(unique = true)
     private String email;
 
     @NotNull
     private String address;
 
     @NotNull
-    private String postCode;
+    private String postcode;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> orderItems;
@@ -46,8 +47,8 @@ public class Order {
         this.address = address;
     }
 
-    public void changePostCode(String postCode) {
-        this.postCode = postCode;
+    public void changePostCode(String postcode) {
+        this.postcode = postcode;
     }
 
 

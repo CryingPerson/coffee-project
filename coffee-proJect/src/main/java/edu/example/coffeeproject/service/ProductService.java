@@ -1,10 +1,14 @@
 package edu.example.coffeeproject.service;
 
-import edu.example.coffeeproject.dto.ProductDTO;
-import edu.example.coffeeproject.entity.Category;
+import edu.example.coffeeproject.dto.order.PageRequestDTO;
+import edu.example.coffeeproject.dto.product.ProductDTO;
 import edu.example.coffeeproject.entity.Product;
 import edu.example.coffeeproject.repository.ProductRepository;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +23,7 @@ public class ProductService {
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
+
 
     public ProductDTO add(ProductDTO productDTO){
         Product save = productRepository.save(productDTO.toEntity());
@@ -55,7 +60,10 @@ public class ProductService {
         productRepository.deleteById(productId);
     }
 
-    public List<Product> readAll(){
-        return productRepository.findAll();
+    public Page<Product> readAll(PageRequestDTO pageRequestDTO){
+        Sort sort = Sort.by("productId").ascending();
+        Pageable pageable = pageRequestDTO.getPageable(sort);
+        Page<Product> all = productRepository.findAll(pageable);
+        return all;
     }
 }

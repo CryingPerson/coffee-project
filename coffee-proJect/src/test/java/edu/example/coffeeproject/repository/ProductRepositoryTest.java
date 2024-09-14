@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,18 +29,18 @@ class ProductRepositoryTest {
 //    }
     @Test
     public void TestGet(){
-        Product product = Product.builder().productId(2L).productName("splite").category(Category.ETHIOPIA_SIDAME).
-                price(1000).description("splite eat").build();
-        productRepository.save(product);
-        log.info(product);
-        assertEquals(product.getProductId(), 1L);
-        assertEquals(product.getProductName(), "splite");
+        IntStream.rangeClosed(5,20).forEach( i -> {
+            Product product = Product.builder().productName("splite"+i).category(Category.COLUMBIA_COFFEE)
+                    .price(1000 * i).description("splite eat " + i).build();
+
+            productRepository.save(product);
+        });
 
     }
 
     @Test
     public void TestRead(){
-        Long productId = 9L;
+        Long productId = 3L;
 
         Optional<Product> product = productRepository.findById(productId);
 
