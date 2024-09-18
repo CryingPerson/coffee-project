@@ -3,6 +3,7 @@ package edu.example.coffeeproject.service;
 import edu.example.coffeeproject.dto.order.PageRequestDTO;
 import edu.example.coffeeproject.dto.product.ProductDTO;
 import edu.example.coffeeproject.entity.Product;
+import edu.example.coffeeproject.exception.ProductException;
 import edu.example.coffeeproject.repository.ProductRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -34,8 +35,9 @@ public class ProductService {
     public ProductDTO read(Long productId){
         Optional<Product> product =
                 productRepository.findById(productId);
+        Product product1 = product.orElseThrow();
 
-        return new ProductDTO(product.get());
+        return new ProductDTO(product1);
     }
 
     public ProductDTO update(ProductDTO productDTO){

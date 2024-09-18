@@ -9,6 +9,8 @@ public enum ProductException {
     ProductException(String message, Integer code) {
         productTaskException = new ProductTaskException(message, code);
     }
-
+    public ProductTaskException get(){
+        return productTaskException;
+    }
 
 }
