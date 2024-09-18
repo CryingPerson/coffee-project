@@ -6,4 +6,5 @@ public enum Category {
     COLUMBIA_QUINDIO,
     ETHIOPIA_SIDAME,
     COFFEE_BEAN_PACKAGE
+    //
 }
